@@ -1,0 +1,93 @@
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+
+//First, you need create the PDF Table
+//The number 1 and 2 indicates how many columns the table will have. Detail the pdfTable2 is for example. We will not use it.
+PdfPTable pdfTable1 = new PdfPTable(1);
+PdfPTable pdfTable2 = new PdfPTable(2);
+
+//Now, you need create the fonts for your texts
+//Font: Arial, Size: 11. With bold text and another with normal
+iTextSharp.text.Font fontBold = FontFactory.GetFont("Arial", 11f, iTextSharp.text.Font.BOLD, new iTextSharp.text.BaseColor(0, 0, 0));
+iTextSharp.text.Font fontNormal = FontFactory.GetFont("Arial", 11f, iTextSharp.text.Font.NORMAL, new iTextSharp.text.BaseColor(0, 0, 0));
+
+//Lets go give the properties for the Tables
+
+//pdfTable1.DefaultCell.Padding = 5;
+pdfTable1.WidthPercentage = 80;
+pdfTable1.DefaultCell.HorizontalAlignment = Element.ALIGN_LEFT;
+pdfTable1.DefaultCell.VerticalAlignment = Element.ALIGN_LEFT;
+//pdfTable1.DefaultCell.BackgroundClor = new iTextSharp.text.Basecolor(64,134,170);
+pdfTable1.DefaultCell.BorderWidth = 0;
+   
+   
+//Now, you make do the text for create your phrase using Chunk and your fonts
+
+Chunk c1 = new Chunk("Testing", fontBold);
+Chunk c2 = new Chunk("iTextSharp", fontNormal);
+
+//Putting together the Chunks in a Phrase
+
+Phrase p = new Phrase();
+p.Add(c1);
+p.Add(c2);
+
+//Putting together the Phrase in a Paragraph and the Paragraph in a Table
+
+Paragraph ph = new Paragraph();
+ph.Add(p);
+pdfTable1.Add(ph);
+
+//Creating your PDF Document
+     string folderPath = "C:\\Users\\Downloads\\PDF\\";
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+
+                    //FileName
+                    int fileCount = Directory.GetFiles(@"C:\\Users\\Downloads\\PDF").Length;
+                    string strFileName = "JobsDescriptionForm" + (fileCount + 1) + ".pdf";
+
+                    using (FileStream stream = new FileStream(folderPath + strFileName, FileMode.Create))
+                    {
+                        Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
+                        PdfWriter.GetInstance(pdfDoc, stream);
+
+                        pdfDoc.Open();
+
+           
+
+                        pdfDoc.Add(pdfTable1);
+    
+
+ 
+                        pdfDoc.NewPage();
+                
+
+
+                        pdfDoc.Close();
+                        stream.Close();
+
+                        System.Diagnostics.Process.Start(folderPath + "\\" + strFileName);
+
+                    }
+                    }
+
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+
+
+
+
+
+
+
+
+
+
