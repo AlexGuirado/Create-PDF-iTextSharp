@@ -73,13 +73,8 @@ pdfTable1.Add(ph);
                         System.Diagnostics.Process.Start(folderPath + "\\" + strFileName);
 
                     }
-                    }
+                    
 
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
 
 
 
